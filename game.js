@@ -9,11 +9,17 @@ function startGame () {
     let inputElement = document.querySelector('#guessInput')
     let messageElement = document.querySelector('#guessMessage')
     let formElement = document.querySelector('.guessForm')
+    let restartElement = document.querySelector('.restartGame')
     let minRangeElement = document.querySelector('#minRange')
     let maxRangeElement = document.querySelector('#maxRange')
     let mysterElement = document.querySelector('#mysteryNumber')
+    let restartButtonElement = document.querySelector('#restartGameButton')
 
     inputElement.focus()
+
+    restartButtonElement.addEventListener('click', function () {
+        document.location.reload()
+    })
 
     function handleGuess () {
         let guessedNumber = Number(inputElement.value)
@@ -25,6 +31,9 @@ function startGame () {
             minRange = guessedNumber
             maxRange = guessedNumber
             mysterElement.innerHTML = guessedNumber
+
+            formElement.style.display = 'none'
+            restartElement.style.display = 'flex'
         } else if (guessedNumber < randomNumber) {
             messageElement.innerHTML = 'Myslim na VYSSIE cislo.'
             if (minRange < guessedNumber) {
