@@ -4,11 +4,19 @@ function startGame () {
 
     let buttonElement = document.querySelector('#guessButton')
     let inputElement = document.querySelector('#guessInput')
+    let messageElement = document.querySelector('#guessMessage')
 
     buttonElement.addEventListener('click', function () {
-        console.log('Oklikal si tlacitko.')
         let guessedNumber = Number(inputElement.value)
-        console.log(guessedNumber, typeof guessedNumber)
+        
+        if (guessedNumber === randomNumber) {
+            messageElement.innerHTML = 'Gratulki! Uhadla si.'
+        } else if (guessedNumber < randomNumber) {
+            messageElement.innerHTML = 'Myslim na VYSSIE cislo.'
+        } else if (guessedNumber > randomNumber) {
+            messageElement.innerHTML = 'Myslim na NIZSIE cislo.'
+        }
+
     })
 }
 
