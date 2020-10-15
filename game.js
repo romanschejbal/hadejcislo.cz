@@ -5,9 +5,14 @@ function startGame () {
     let buttonElement = document.querySelector('#guessButton')
     let inputElement = document.querySelector('#guessInput')
     let messageElement = document.querySelector('#guessMessage')
+    let formElement = document.querySelector('.guessForm')
 
-    buttonElement.addEventListener('click', function () {
+    inputElement.focus()
+
+    function handleGuess () {
         let guessedNumber = Number(inputElement.value)
+        inputElement.value = ''
+        inputElement.focus()
         
         if (guessedNumber === randomNumber) {
             messageElement.innerHTML = 'Gratulki! Uhadla si.'
@@ -17,7 +22,22 @@ function startGame () {
             messageElement.innerHTML = 'Myslim na NIZSIE cislo.'
         }
 
+    }
+
+    formElement.addEventListener('submit', function (event) {
+        event.preventDefault()
+        handleGuess()
     })
+
+    /*
+    inputElement.addEventListener('keyup', function (event) {
+        if (event.key === 'Enter') {
+            handleGuess()
+        }
+    })
+
+    buttonElement.addEventListener('click', handleGuess)
+    */
 }
 
 function getRandomNumber (min, max) {
