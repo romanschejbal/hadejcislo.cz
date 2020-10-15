@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Guess the number</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tomorrow:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="alert"><p>Too High!</p></div>
+
+    <header>
+      <h1 id="headline">Can you guess the secret number?</h1>
+    </header>
+
+    <div class="main">
+      <div class="mainSection">
+        <h2>How to play</h2>
+
+        <ul>
+          <li>Guess the secret number between 0 and 100.</li>
+          <li>If you guess incorrect number, you will get a hint.</li>
+          <li>If you guess correct number, you win!</li>
+        </ul>
+      </div>
+
+      <div class="mainSection">
+        <h2>Secret Number</h2>
+        <div class="secretNumber">
+          <p class="symbol number rightAligned">0</p>
+          <p class="symbol arrow">&lt;</p>
+          <div class="star">
+            <img src="./hvezda.svg" />
+            <p class="symbol">?</p>
+          </div>
+          <p class="symbol arrow">&lt;</p>
+          <p class="symbol number">100</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="guessPanel">
+      <form class="guessForm">
+        <h2>Number between 0 and 100:</h2>
+        <input type="number" min="0" max="100" />
+        <button type="submit">guess</button>
+      </form>
+    </div>
+  </body>
+</html>
