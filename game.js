@@ -15,11 +15,19 @@ function startGame () {
     let mysterElement = document.querySelector('#mysteryNumber')
     let restartButtonElement = document.querySelector('#restartGameButton')
 
+    resetUi()
     inputElement.focus()
 
-    restartButtonElement.addEventListener('click', function () {
-        document.location.reload()
-    })
+    restartButtonElement.addEventListener('click', startGame)
+
+    function resetUi () {
+        messageElement.innerHTML = 'Welcome!'
+        minRangeElement.innerHTML = minRange
+        maxRangeElement.innerHTML = maxRange
+        mysterElement.innerHTML = '?'
+        formElement.style.display = 'flex'
+        restartElement.style.display = 'none'
+    }
 
     function handleGuess () {
         let guessedNumber = Number(inputElement.value)
