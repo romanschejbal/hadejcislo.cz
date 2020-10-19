@@ -18,7 +18,7 @@ function startGame () {
     resetUi()
     inputElement.focus()
 
-    restartButtonElement.addEventListener('click', startGame)
+    restartButtonElement.addEventListener('click', restartGame)
 
     function resetUi () {
         messageElement.innerHTML = 'Welcome!'
@@ -58,10 +58,21 @@ function startGame () {
         maxRangeElement.innerHTML = maxRange
     }
 
-    formElement.addEventListener('submit', function (event) {
+    function restartGame () {
+        // clean up after ourselves
+        restartButtonElement.removeEventListener('click', restartGame);
+        formElement.removeEventListener('submit', submit);
+
+        // now we can start a new one and attach new listeners
+        startGame();
+    }
+    
+    function submit (event) {
         event.preventDefault()
         handleGuess()
-    })
+    }
+
+    formElement.addEventListener('submit', submit)
 
     /*
     inputElement.addEventListener('keyup', function (event) {
