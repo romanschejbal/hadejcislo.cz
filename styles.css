@@ -162,7 +162,3 @@ button {
   cursor: pointer;
   text-transform: uppercase;
 }
-
-.restartGame {
-  display: none;
-}
