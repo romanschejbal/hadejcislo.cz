@@ -7,121 +7,137 @@
       href="https://fonts.googleapis.com/css2?family=Tomorrow:wght@700;800&display=swap"
       rel="stylesheet"
     />
-    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   </head>
   <body>
     <div id="app"></div>
     <script type="text/babel">
-      const welcomeMessage = 'Welcome!'
-      const winningMessage = 'Gratulki! Uhadla si.'
-      const tooSmallMessage = 'Myslim na VYSSIE cislo.'
-      const tooBigMessage = 'Myslim na NIZSIE cislo.'
+      const welcomeMessage = 'Welcome!';
+      const winningMessage = 'Gratulki! Uhadla si.';
+      const tooSmallMessage = 'Myslim na VYSSIE cislo.';
+      const tooBigMessage = 'Myslim na NIZSIE cislo.';
 
-      function getRandomNumber (min, max) {
-          return min + Math.floor(Math.random() * (max - min + 1))
+      function getRandomNumber(min, max) {
+        return min + Math.floor(Math.random() * (max - min + 1));
       }
 
       const range = [0, 100];
-      
+
       function App() {
-        const [randomNumber, setRandomNumber] = React.useState(getRandomNumber(range[0], range[1]));
+        const [randomNumber, setRandomNumber] = React.useState(
+          getRandomNumber(range[0], range[1])
+        );
         const [value, setValue] = React.useState(null);
         const [minRange, setMinRange] = React.useState(range[0]);
         const [maxRange, setMaxRange] = React.useState(range[1]);
         const [message, setMessage] = React.useState(welcomeMessage);
         const [success, setSuccess] = React.useState(false);
 
-          function handleGuess(e) {
-            e.preventDefault();
+        function handleGuess(e) {
+          e.preventDefault();
 
-            const guessedNumber = Number(value);
-            setValue('');
-            
-            if (guessedNumber === randomNumber) {
-                setMessage(winningMessage);
-                setSuccess(true);
-            } else if (guessedNumber < randomNumber) {
-                setMessage(tooSmallMessage);
-                if (minRange < guessedNumber) {
-                    setMinRange(guessedNumber);
-                }
-            } else if (guessedNumber > randomNumber) {
-                setMessage(tooBigMessage);
-                if (maxRange > guessedNumber) {
-                    setMaxRange(guessedNumber);
-                }
+          const guessedNumber = Number(value);
+          setValue('');
+
+          if (guessedNumber === randomNumber) {
+            setMessage(winningMessage);
+            setSuccess(true);
+          } else if (guessedNumber < randomNumber) {
+            setMessage(tooSmallMessage);
+            if (minRange < guessedNumber) {
+              setMinRange(guessedNumber);
+            }
+          } else if (guessedNumber > randomNumber) {
+            setMessage(tooBigMessage);
+            if (maxRange > guessedNumber) {
+              setMaxRange(guessedNumber);
             }
           }
+        }
 
-          function restartGame() {
-            setRandomNumber(getRandomNumber(range[0], range[1]));
-            setMessage(welcomeMessage);
-            setMinRange(range[0]);
-            setMaxRange(range[1]);
-            setSuccess(false);
-          }
+        function restartGame() {
+          setRandomNumber(getRandomNumber(range[0], range[1]));
+          setMessage(welcomeMessage);
+          setMinRange(range[0]);
+          setMaxRange(range[1]);
+          setSuccess(false);
+        }
 
-          return (
-            <>
-              <div className="alert"><p id="guessMessage">{message}</p></div>
-              <header>
-                <h1 id="headline">Can you guess the secret number?</h1>
-              </header>
-              
-              <div className="main">
-                <div className="mainSection">
-                  <h2>How to play</h2>
+        return (
+          <>
+            <div className="alert">
+              <p>{message}</p>
+            </div>
+            <header>
+              <h1 id="headline">Can you guess the secret number?</h1>
+            </header>
 
-                  <ul>
-                    <li>Guess the secret number between 0 and 100.</li>
-                    <li>If you guess incorrect number, you will get a hint.</li>
-                    <li>If you guess correct number, you win!</li>
-                  </ul>
-                </div>
+            <div className="main">
+              <div className="mainSection">
+                <h2>How to play</h2>
 
-                <div className="mainSection">
-                  <h2>Secret Number</h2>
-                  <div className="secretNumber">
-                    <p className="symbol number rightAligned" id="minRange">
-                      {minRange}
-                    </p>
-                    <p className="symbol arrow">&lt;</p>
-                    <div className="star">
-                      <img src="./hvezda.svg" />
-                      <p className="symbol" id="mysteryNumber">
-                        {success ? randomNumber : '?'}
-                      </p>
-                    </div>
-                    <p className="symbol arrow">&lt;</p>
-                    <p className="symbol number" id="maxRange">
-                      {maxRange}
+                <ul>
+                  <li>Guess the secret number between 0 and 100.</li>
+                  <li>If you guess incorrect number, you will get a hint.</li>
+                  <li>If you guess correct number, you win!</li>
+                </ul>
+              </div>
+
+              <div className="mainSection">
+                <h2>Secret Number</h2>
+                <div className="secretNumber">
+                  <p className="symbol number rightAligned" id="minRange">
+                    {minRange}
+                  </p>
+                  <p className="symbol arrow">&lt;</p>
+                  <div className="star">
+                    <img src="./hvezda.svg" />
+                    <p className="symbol" id="mysteryNumber">
+                      {success ? randomNumber : '?'}
                     </p>
                   </div>
+                  <p className="symbol arrow">&lt;</p>
+                  <p className="symbol number" id="maxRange">
+                    {maxRange}
+                  </p>
                 </div>
               </div>
+            </div>
 
-              <div className="guessPanel">
-                {success 
-                  ? <div className="restartGame">
-                      <button onClick={restartGame}>Restart game</button>
-                    </div>
-                  :
-                    <form className="guessForm" onSubmit={handleGuess}>
-                      <h2>Number between 0 and 100:</h2>
-                      <input type="number" min="0" max="100" onChange={e => { setValue(e.target.value); }} />
-                      <button type="submit" id="guessButton">guess</button>
-                    </form>
-                }
-              </div>
-            </>
-          );
+            <div className="guessPanel">
+              {success ? (
+                <div className="restartGame">
+                  <button onClick={restartGame}>Restart game</button>
+                </div>
+              ) : (
+                <form className="guessForm" onSubmit={handleGuess}>
+                  <h2>Number between 0 and 100:</h2>
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    onChange={(e) => {
+                      setValue(e.target.value);
+                    }}
+                  />
+                  <button type="submit">guess</button>
+                </form>
+              )}
+            </div>
+          </>
+        );
       }
 
       const appContainer = document.querySelector('#app');
       ReactDOM.render(<App />, appContainer);
     </script>
-
   </body>
 </html>
