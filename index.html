@@ -141,7 +141,7 @@
       const appContainer = document.querySelector('#app');
       (function renderApp() {
         ReactDOM.render(
-          <App restartApp={renderApp} key={Math.random()} />,
+          <App restartApp={renderApp} key={new Date().getTime()} />,
           appContainer
         );
       })();
