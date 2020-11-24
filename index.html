@@ -31,45 +31,46 @@
 
       const range = [0, 100];
 
-      function App() {
-        const [randomNumber, setRandomNumber] = React.useState(
-          getRandomNumber(range[0], range[1])
-        );
+      function App(props) {
         const [value, setValue] = React.useState(null);
-        const [minRange, setMinRange] = React.useState(range[0]);
-        const [maxRange, setMaxRange] = React.useState(range[1]);
-        const [message, setMessage] = React.useState(welcomeMessage);
-        const [success, setSuccess] = React.useState(false);
+        const [randomNumber, guessedValues] = React.useMemo(
+          () => [getRandomNumber(range[0], range[1]), []],
+          []
+        );
 
         function handleGuess(e) {
           e.preventDefault();
-
           const guessedNumber = Number(value);
+          guessedValues.push(guessedNumber);
           setValue('');
-
-          if (guessedNumber === randomNumber) {
-            setMessage(winningMessage);
-            setSuccess(true);
-          } else if (guessedNumber < randomNumber) {
-            setMessage(tooSmallMessage);
-            if (minRange < guessedNumber) {
-              setMinRange(guessedNumber);
-            }
-          } else if (guessedNumber > randomNumber) {
-            setMessage(tooBigMessage);
-            if (maxRange > guessedNumber) {
-              setMaxRange(guessedNumber);
-            }
-          }
         }
 
-        function restartGame() {
-          setRandomNumber(getRandomNumber(range[0], range[1]));
-          setMessage(welcomeMessage);
-          setMinRange(range[0]);
-          setMaxRange(range[1]);
-          setSuccess(false);
-        }
+        // derived state for the minimum range
+        const minRange = Math.max(
+          ...[range[0], ...guessedValues].filter((v) => v <= randomNumber)
+        );
+        // derived state for the maximum range
+        const maxRange = Math.min(
+          ...[range[1], ...guessedValues].filter((v) => v >= randomNumber)
+        );
+
+        // derived state for last guessed number
+        const lastGuessedNumber = guessedValues.length
+          ? guessedValues[guessedValues.length - 1]
+          : null;
+
+        // derived state for success flag
+        const success = randomNumber === lastGuessedNumber;
+
+        // derived state for message
+        const message =
+          guessedValues.length === 0
+            ? welcomeMessage
+            : lastGuessedNumber < randomNumber
+            ? tooSmallMessage
+            : lastGuessedNumber > randomNumber
+            ? tooBigMessage
+            : winningMessage;
 
         return (
           <>
@@ -115,7 +116,7 @@
             <div className="guessPanel">
               {success ? (
                 <div className="restartGame">
-                  <button onClick={restartGame}>Restart game</button>
+                  <button onClick={props.restartApp}>Restart game</button>
                 </div>
               ) : (
                 <form className="guessForm" onSubmit={handleGuess}>
@@ -124,6 +125,7 @@
                     type="number"
                     min="0"
                     max="100"
+                    value={value}
                     onChange={(e) => {
                       setValue(e.target.value);
                     }}
@@ -137,7 +139,12 @@
       }
 
       const appContainer = document.querySelector('#app');
-      ReactDOM.render(<App />, appContainer);
+      (function renderApp() {
+        ReactDOM.render(
+          <App restartApp={renderApp} key={new Date().getTime()} />,
+          appContainer
+        );
+      })();
     </script>
   </body>
 </html>
